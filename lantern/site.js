@@ -5,15 +5,17 @@ const mobileNav = document.getElementById('mobileNav');
 
 function applyTheme(theme) {
   root.setAttribute('data-theme', theme);
-  localStorage.setItem('lantern-theme', theme);
+  try { localStorage.setItem('lantern-theme', theme); } catch {}
   themeButtons.forEach((button) => {
     const next = theme === 'dark' ? 'light' : 'dark';
     button.setAttribute('aria-label', `Switch to ${next} mode`);
-    button.textContent = theme === 'dark' ? '☀' : '☾';
+    button.textContent = theme === 'dark' ? '☀ Light mode' : '☾ Dark mode';
+    button.title = `Switch to ${next} mode`;
   });
 }
 
-const savedTheme = localStorage.getItem('lantern-theme');
+let savedTheme;
+try { savedTheme = localStorage.getItem('lantern-theme'); } catch {}
 const preferredDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
 applyTheme(savedTheme || (preferredDark ? 'dark' : 'light'));
 

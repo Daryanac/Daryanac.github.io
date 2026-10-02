@@ -180,11 +180,11 @@ async function checkBackend() {
     const response = await fetch(`${API_BASE_URL}/api/health`, { method: "GET" });
     if (!response.ok) throw new Error("Backend unavailable");
     const data = await response.json();
-    connectionBadge.textContent = data.apiConfigured ? "Backend online" : "API key missing";
+    connectionBadge.textContent = data.apiConfigured ? "Ready to connect" : "Temporarily unavailable";
     connectionBadge.classList.toggle("online", Boolean(data.apiConfigured));
     connectionBadge.classList.toggle("offline", !data.apiConfigured);
   } catch (error) {
-    connectionBadge.textContent = "Backend offline";
+    connectionBadge.textContent = "Connection unavailable";
     connectionBadge.classList.remove("online");
     connectionBadge.classList.add("offline");
   }
@@ -387,13 +387,13 @@ clearButton?.addEventListener("click", () => {
   stopPlayback();
   conversationHistory = [];
   conversation.innerHTML = "";
-  addMessage("assistant", "Hi. I’m here to listen. What’s on your mind today?");
+  addMessage("assistant", "You can begin wherever you are. What feels heaviest today—or is there a memory you’d like to share?");
   setError();
-  setState("idle", "Press the microphone and start speaking.");
+  setState("idle", "Speak or type whenever you feel ready.");
   if (timer) timer.textContent = "00:00";
 });
 
 resetWaveform();
-setState("idle", "Press the microphone and start speaking.");
+setState("idle", "Speak or type whenever you feel ready.");
 checkBackend();
 
